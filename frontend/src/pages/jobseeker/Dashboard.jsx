@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getDashboardStats } from "../../api/jobSeekerApi";
 import { Link } from "react-router-dom";
-import Navbar from "../../components/common/Navbar";
+import JobSeekerLayout from "../../components/layouts/JobSeekerLayout";
+import "./jobseeker.css";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -15,45 +16,35 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <>
-      <Navbar />
+    <JobSeekerLayout>
+      <h2 className="page-title">Job Seeker Dashboard</h2>
 
-      <div className="container mt-4">
-        <h2>Job Seeker Dashboard</h2>
-
-        <div className="row mt-3">
-          <div className="col-md-4">
-            <div className="card p-3">
-              <h5>Total Applications</h5>
-              <h3>{stats.total}</h3>
-            </div>
-          </div>
-
-          <div className="col-md-4">
-            <div className="card p-3">
-              <h5>Shortlisted</h5>
-              <h3 className="text-success">{stats.shortlisted}</h3>
-            </div>
-          </div>
-
-          <div className="col-md-4">
-            <div className="card p-3">
-              <h5>Rejected</h5>
-              <h3 className="text-danger">{stats.rejected}</h3>
-            </div>
-          </div>
+      <div className="stats-grid">
+        <div className="stat-card">
+          <p>Total Applications</p>
+          <h3>{stats.total}</h3>
         </div>
 
-        <div className="mt-4">
-          <Link to="/applications" className="btn btn-primary me-2">
-            My Applications
-          </Link>
-          <Link to="/profile" className="btn btn-secondary">
-            My Profile
-          </Link>
+        <div className="stat-card success">
+          <p>Shortlisted</p>
+          <h3>{stats.shortlisted}</h3>
+        </div>
+
+        <div className="stat-card danger">
+          <p>Rejected</p>
+          <h3>{stats.rejected}</h3>
         </div>
       </div>
-    </>
+
+      <div className="action-buttons">
+        <Link to="/applications" className="btn primary">
+          My Applications
+        </Link>
+        <Link to="/profile" className="btn secondary">
+          My Profile
+        </Link>
+      </div>
+    </JobSeekerLayout>
   );
 };
 

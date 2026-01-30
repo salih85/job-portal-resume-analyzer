@@ -25,4 +25,9 @@ router.get("/dashboard", protect, authorize("admin"), async (req, res) => {
   });
 });
 
+router.get("/users", protect, authorize("admin"), async (req, res) => {
+  const users = await User.find().select("-password");
+  res.json(users);
+});
+
 module.exports = router;

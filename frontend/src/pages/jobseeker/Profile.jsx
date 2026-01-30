@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProfile, updateProfile } from "../../api/profileApi";
+import JobSeekerLayout from "../../components/layouts/JobSeekerLayout";
+import "./jobseeker.css";
 
 const Profile = () => {
   const [form, setForm] = useState({
@@ -24,54 +26,33 @@ const Profile = () => {
   const submit = async () => {
     await updateProfile({
       ...form,
-      skills: form.skills.split(","),
+      skills: form.skills.split(",").map(s => s.trim()),
     });
     alert("Profile updated");
   };
 
   return (
-    <div className="container mt-4">
-      <h2>My Profile</h2>
+    <JobSeekerLayout>
+      <h2 className="page-title">My Profile</h2>
 
-      <input
-        className="form-control mb-2"
-        placeholder="Full Name"
-        value={form.fullName}
-        onChange={e => setForm({ ...form, fullName: e.target.value })}
-      />
+      <div className="form-card">
+        {["fullName", "phone", "education", "experience", "skills"].map(field => (
+          <input
+            key={field}
+            className="input"
+            placeholder={field.toUpperCase()}
+            value={form[field]}
+            onChange={e =>
+              setForm({ ...form, [field]: e.target.value })
+            }
+          />
+        ))}
 
-      <input
-        className="form-control mb-2"
-        placeholder="Phone"
-        value={form.phone}
-        onChange={e => setForm({ ...form, phone: e.target.value })}
-      />
-
-      <input
-        className="form-control mb-2"
-        placeholder="Education"
-        value={form.education}
-        onChange={e => setForm({ ...form, education: e.target.value })}
-      />
-
-      <input
-        className="form-control mb-2"
-        placeholder="Experience"
-        value={form.experience}
-        onChange={e => setForm({ ...form, experience: e.target.value })}
-      />
-
-      <input
-        className="form-control mb-3"
-        placeholder="Skills (comma separated)"
-        value={form.skills}
-        onChange={e => setForm({ ...form, skills: e.target.value })}
-      />
-
-      <button className="btn btn-success" onClick={submit}>
-        Save Profile
-      </button>
-    </div>
+        <button className="btn primary" onClick={submit}>
+          Save Profile
+        </button>
+      </div>
+    </JobSeekerLayout>
   );
 };
 

@@ -58,6 +58,7 @@ const Navbar = () => {
         {user?.role === "jobseeker" && (
           <>
             <Link style={link} to="/dashboard">Dashboard</Link>
+            <Link style={link} to="/jobs">Jobs</Link>
             <Link style={link} to="/applications">Applications</Link>
             <Link style={link} to="/profile">Profile</Link>
             <Link style={link} to="/resume-upload">Upload Resume</Link>

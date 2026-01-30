@@ -7,22 +7,15 @@ const authHeader = () => ({
   },
 });
 
-// ✅ Apply for a job
 export const applyJob = async (jobId) => {
   const res = await API.post(
-    `/applications/apply/${jobId}`,
-    {},
-    authHeader()
+    `/applications/apply/${jobId}`
   );
   return res.data;
 };
 
-// ✅ Get logged-in user's applications
 export const getMyApplications = async () => {
-  const res = await API.get(
-    `/applications/my`,
-    authHeader()
-  );
+  const res = await API.get("/applications/my");
   return res.data;
 };
 

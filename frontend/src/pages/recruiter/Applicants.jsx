@@ -26,6 +26,7 @@ const RecruiterApplications = () => {
             <th>Job</th>
             <th>Applicant</th>
             <th>Email</th>
+            <th>Resume</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -37,6 +38,7 @@ const RecruiterApplications = () => {
               <td>{app.job.title}</td>
               <td>{app.applicant.name}</td>
               <td>{app.applicant.email}</td>
+              <td><a href={app.resume.url} target="_blank" rel="noopener noreferrer">View Resume</a></td>
               <td>{app.status}</td>
               <td>
                 <button

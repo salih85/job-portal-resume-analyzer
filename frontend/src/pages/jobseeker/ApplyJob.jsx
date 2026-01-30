@@ -4,10 +4,11 @@ import { applyJob } from "../../api/applicationApi";
 const ApplyJob = () => {
   const { jobId } = useParams();
 
-  const apply = async () => {
-    await applyJob({ jobId });
-    alert("Applied successfully");
-  };
+const apply = async () => {
+  await applyJob(jobId);
+  alert("Applied successfully");
+};
+
 
   return (
     <div className="container mt-4">
