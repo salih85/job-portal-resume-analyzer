@@ -15,16 +15,19 @@ router.post(
         return res.status(400).json({ message: "No file uploaded" });
       }
 
+
       const jobSeeker = await JobSeeker.findOne({ user: req.user.id });
       if (!jobSeeker) {
         return res.status(404).json({ message: "JobSeeker profile not found" });
       }
+
 
       const resume = await Resume.create({
         jobSeeker: jobSeeker._id,
         resumeUrl: `/uploads/resumes/${req.file.filename}`,
       });
 
+      
       res.json({
         message: "Resume uploaded successfully",
         resume,
