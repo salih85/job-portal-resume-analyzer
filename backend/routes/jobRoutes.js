@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
   res.json(jobs);
 });
 
+
 // ✅ recruiter
 router.post("/", protect, async (req, res) => {
   const job = await Job.create({
