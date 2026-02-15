@@ -37,6 +37,7 @@ const handleSubmit = async (e) => {
   }
 };
 
+
 const redirectByRole = (user) => {
   if (user.role === "jobseeker") {
     navigate("/dashboard");
