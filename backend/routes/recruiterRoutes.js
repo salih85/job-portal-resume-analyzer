@@ -23,7 +23,8 @@ router.get("/applications", protect, async (req, res) => {
 
   const apps = await Application.find({ job: { $in: jobIds } })
     .populate("job", "title location")
-    .populate("applicant", "name email");
+    .populate("applicant", "name email")
+    .populate("resume");
 
   res.json(apps);
 });
