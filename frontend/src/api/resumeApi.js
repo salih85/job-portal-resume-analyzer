@@ -8,3 +8,8 @@ export const uploadResume = async (formData) => {
   });
   return res.data;
 };
+
+export const getResumeDetails = async (id) => {
+  const res = await API.get(`/resume/${id}`);
+  return res.data;
+};
