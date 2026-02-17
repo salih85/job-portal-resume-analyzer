@@ -8,6 +8,7 @@ const RoleRoute = ({ role, children }) => {
   if (loading) {
     return <div className="text-center mt-5">Loading...</div>;
   }
+  
 
   if (!user) return <Navigate to="/login" replace />;
 
