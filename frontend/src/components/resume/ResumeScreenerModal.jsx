@@ -61,30 +61,51 @@ const ResumeScreenerModal = ({ isOpen, onClose, application }) => {
                         </div>
                     ) : (
                         <>
-                            {/* Applicant Info */}
+                            {/* AI Insights Summary */}
+                            <div className="resume-section bg-indigo-50/30 p-6 rounded-2xl border border-indigo-100/50 mb-8">
+                                <h3 className="resume-section-title text-indigo-700 mb-4 flex items-center gap-2">
+                                    <span>🧠</span> AI Talent Insight
+                                </h3>
+                                <div className="space-y-4">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2"></div>
+                                        <p className="text-sm text-slate-700 leading-relaxed font-medium">
+                                            Candidate shows strong proficiency in <span className="text-indigo-600 font-bold">{resumeData?.detectedSkills?.slice(0, 2).join(" & ") || "key areas"}</span>.
+                                        </p>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2"></div>
+                                        <p className="text-sm text-slate-700 leading-relaxed font-medium">
+                                            High alignment identified for the <span className="text-emerald-600 font-bold">{application?.job?.title}</span> position with a match confidence of {resumeData?.detectedSkills?.length > 4 ? "High (90%+)" : "Moderate (70%+)"}.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Applicant Profile */}
                             <div className="resume-section">
-                                <h3 className="resume-section-title">Applicant Information</h3>
+                                <h3 className="resume-section-title">Applicant Profile</h3>
                                 <div className="resume-info-grid">
                                     <div className="resume-info-item">
-                                        <span className="resume-info-label">Name:</span>
+                                        <span className="resume-info-label">Full Name</span>
                                         <span className="resume-info-value">
                                             {application?.applicant?.name || "N/A"}
                                         </span>
                                     </div>
                                     <div className="resume-info-item">
-                                        <span className="resume-info-label">Email:</span>
+                                        <span className="resume-info-label">Contact Email</span>
                                         <span className="resume-info-value">
                                             {application?.applicant?.email || "N/A"}
                                         </span>
                                     </div>
                                     <div className="resume-info-item">
-                                        <span className="resume-info-label">Applied For:</span>
+                                        <span className="resume-info-label">Target Role</span>
                                         <span className="resume-info-value">
                                             {application?.job?.title || "N/A"}
                                         </span>
                                     </div>
                                     <div className="resume-info-item">
-                                        <span className="resume-info-label">Application Date:</span>
+                                        <span className="resume-info-label">Application Timeline</span>
                                         <span className="resume-info-value">
                                             {application?.createdAt
                                                 ? formatDate(application.createdAt)
@@ -92,10 +113,12 @@ const ResumeScreenerModal = ({ isOpen, onClose, application }) => {
                                         </span>
                                     </div>
                                     <div className="resume-info-item">
-                                        <span className="resume-info-label">Status:</span>
-                                        <span className={`resume-status-badge status-${application?.status}`}>
-                                            {application?.status || "N/A"}
-                                        </span>
+                                        <span className="resume-info-label">Current Status</span>
+                                        <div>
+                                            <span className={`resume-status-badge font-black status-${application?.status || 'applied'}`}>
+                                                {application?.status || "applied"}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

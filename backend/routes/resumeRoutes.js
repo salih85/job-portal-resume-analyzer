@@ -57,6 +57,10 @@ router.post(
         detectedSkills,
       });
 
+      // Link resume to JobSeeker profile
+      jobSeeker.resume = resume._id;
+      await jobSeeker.save();
+
       res.json({
         message: "Resume uploaded successfully",
         resume,

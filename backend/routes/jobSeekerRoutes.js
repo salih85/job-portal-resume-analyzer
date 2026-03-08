@@ -16,10 +16,20 @@ router.get("/dashboard", protect, async (req, res) => {
     status: "rejected",
   });
 
+  const recentApps = await Application.find({ applicant: userId })
+    .sort({ createdAt: -1 })
+    .limit(3)
+    .populate("job", "title company");
+
   res.json({
     total,
     shortlisted,
     rejected,
+    recentApplications: recentApps.map(app => ({
+      jobTitle: app.job?.title || "Unknown Position",
+      status: app.status,
+      date: app.createdAt
+    }))
   });
 });
 
