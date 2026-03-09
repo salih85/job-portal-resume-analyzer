@@ -6,22 +6,38 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
-// ✅ CORS CONFIG (IMPORTANT)
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL, 
+].filter(Boolean);
+
 app.use(
   cors({
-     origin: "http://localhost:5173",
-     credentials: true,
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
-// ✅ Body parsers
-app.use(express.json()); // 🔥 REQUIRED
+
+app.get("/", (req, res) => {
+  res.send("Job Portal API is running...");
+});
+
+
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// ✅ Routes
+
 app.use('/api/auth', require('./routes/authRoutes'));
 
 

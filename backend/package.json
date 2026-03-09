@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "job portal backend api using nodejs and express ",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "build": "npm i",
-    "start": "node index"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "salih",
