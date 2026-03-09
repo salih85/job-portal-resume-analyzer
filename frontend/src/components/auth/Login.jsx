@@ -101,7 +101,9 @@ const Login = () => {
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={() => alert('Google Login Failed')}
-              width="100%"
+              theme="outline"
+              size="large"
+              width="360"
             />
           </div>
 

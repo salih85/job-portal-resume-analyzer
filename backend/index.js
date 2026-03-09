@@ -15,17 +15,35 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // 1. Allow if no origin (like mobile apps/curl)
+      if (!origin) return callback(null, true);
+
+      // 2. Normalize origin and allowed list
+      const normalizedOrigin = origin.replace(/\/$/, "");
+      const normalizedAllowed = allowedOrigins.map(o => o.replace(/\/$/, ""));
+
+      // 3. Check exact match or if it's a Vercel subdomain (very helpful for testing)
+      const isAllowed = normalizedAllowed.includes(normalizedOrigin) || 
+                        normalizedOrigin.endsWith(".vercel.app");
+
+      if (isAllowed) {
         callback(null, true);
       } else {
+        console.error(`CORS Blocked: ${origin}`);
         callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
+// ✅ Cross-Origin-Opener-Policy (REQUIRED for Google Login Popups)
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  next();
+});
 
 
 app.get("/", (req, res) => {
