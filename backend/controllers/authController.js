@@ -5,10 +5,7 @@ const nodemailer = require('nodemailer');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-/**
- * @desc    Register User
- * @route   POST /api/auth/register
- */
+
  exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -35,10 +32,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
   }
 };
 
-/**
- * @desc    Login User
- * @route   POST /api/auth/login
- */
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -93,10 +87,10 @@ exports.forgotPassword = async (req, res) => {
       .update(otp)
       .digest('hex');
 
-    user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+    user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; 
     await user.save();
 
-    // 📧 Email setup
+   
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -112,7 +106,7 @@ exports.forgotPassword = async (req, res) => {
       html: `<h2>Your OTP: ${otp}</h2><p>Valid for 10 minutes</p>`,
     });
 
-    console.log(`OTP for ${email}:`, otp); // for dev only
+    console.log(`OTP for ${email}:`, otp); 
 
 
     res.json({ message: 'OTP sent to your email' });

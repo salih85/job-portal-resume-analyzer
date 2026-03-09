@@ -11,3 +11,7 @@ export const postJob = async (jobData) => {
   const res = await API.post("/jobs", jobData);
   return res.data;
 };
+export const deleteJob = async (id) => {
+  const res = await API.delete(`/jobs/${id}`);
+  return res.data;
+};

@@ -4,7 +4,7 @@ const JobSeekerLayout = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="container py-8 flex-grow">
+      <main className="container py-4 flex-grow">
         {children}
       </main>
       <footer className="py-6 border-t mt-auto">

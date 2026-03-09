@@ -43,12 +43,12 @@ const PostJobModal = ({ isOpen, onClose, onPost }) => {
                         <h2 className="text-2xl font-black tracking-tight uppercase">Post opportunity</h2>
                         <p className="text-slate-400 text-[10px] font-bold mt-1 tracking-widest uppercase">Reach global talent with AI matching</p>
                     </div>
-                    <button className="absolute top-8 right-8 text-slate-400 hover:text-white transition-colors font-black text-xl" onClick={onClose}>✕</button>
-                    <div className="absolute -right-4 -bottom-8 text-9xl opacity-10 select-none">🚀</div>
+                    <button className="absolute top-8 right-8 text-slate-400 hover:text-white transition-colors font-black text-xl z-20" onClick={onClose}>✕</button>
+                    <div className="absolute -right-4 -bottom-8 text-9xl opacity-10 select-none pointer-events-none">🚀</div>
                 </div>
 
-                <div className="modal-content-scroll">
-                    <form onSubmit={handleSubmit} className="p-8 space-y-6">
+                <div className="max-h-[75vh] overflow-y-auto custom-scrollbar">
+                    <form onSubmit={handleSubmit} className="p-4 md:p-8 pb-12 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2">
                                 <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Job Title</label>
@@ -69,7 +69,7 @@ const PostJobModal = ({ isOpen, onClose, onPost }) => {
                                     type="text"
                                     name="company"
                                     className="input font-medium"
-                                    placeholder="e.g. Antigravity AI"
+                                    placeholder="e.g. Acme Corp"
                                     value={formData.company}
                                     onChange={handleChange}
                                     required
@@ -110,7 +110,7 @@ const PostJobModal = ({ isOpen, onClose, onPost }) => {
                                     type="text"
                                     name="salary"
                                     className="input font-medium"
-                                    placeholder="e.g. $140k - $180k"
+                                    placeholder="e.g. ₹12,00,000 - ₹18,00,000"
                                     value={formData.salary}
                                     onChange={handleChange}
                                 />

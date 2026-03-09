@@ -319,7 +319,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1.5rem;
+  padding: 1rem;
   overflow-y: auto;
   /* Support for very small device heights */
 }
@@ -329,7 +329,7 @@
   width: 100%;
   max-width: 640px;
   /* Increased default, but components can override */
-  max-height: 90vh;
+  max-height: calc(100vh - 2rem);
   /* Prevent modal from going off-screen */
   display: flex;
   flex-direction: column;
