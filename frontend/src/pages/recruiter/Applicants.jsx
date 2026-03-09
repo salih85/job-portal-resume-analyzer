@@ -13,6 +13,7 @@ const RecruiterApplications = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [selectedApp, setSelectedApp] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCandidates, setSelectedCandidates] = useState([]);
 
   useEffect(() => {
     getRecruiterApplications().then(data => {
@@ -46,11 +47,47 @@ const RecruiterApplications = () => {
     setSelectedApp(null);
   };
 
+  const toggleCandidateSelection = (appId) => {
+    setSelectedCandidates(prev => 
+      prev.includes(appId) ? prev.filter(id => id !== appId) : [...prev, appId]
+    );
+  };
+
+  const toggleAllSelections = () => {
+    if (selectedCandidates.length === filteredApps.length) {
+      setSelectedCandidates([]);
+    } else {
+      setSelectedCandidates(filteredApps.map(app => app._id));
+    }
+  };
+
+  const exportToCSV = () => {
+    if (selectedCandidates.length === 0) return alert("Select candidates to export");
+    const selectedData = apps.filter(app => selectedCandidates.includes(app._id));
+    
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Name,Email,Job Role,Match %,Status,Applied Date\n";
+    
+    selectedData.forEach(app => {
+      const matchScore = app.resume?.detectedSkills?.length > 5 ? '94%' : app.resume?.detectedSkills?.length > 2 ? '78%' : '45%';
+      const row = `${app.applicant?.name || 'Anonymous'},${app.applicant?.email || 'Hidden'},${app.job?.title || 'Unknown'},${matchScore},${app.status},${new Date(app.createdAt || Date.now()).toLocaleDateString()}`;
+      csvContent += row + "\n";
+    });
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "candidates_export.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
-      <main className="container py-10 pb-32 px-4 xl:px-0 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+      <main className="container pt-32 pb-40 px-4 xl:px-0 max-w-7xl mx-auto flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
             <h2 className="text-3xl font-black text-slate-900 tracking-tight">Candidate Pipeline</h2>
             <p className="text-slate-500 mt-2 font-medium flex items-center gap-2">
@@ -58,27 +95,49 @@ const RecruiterApplications = () => {
               Powered by AI Resume Screening & Matching
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 bg-white p-1.5 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100">
-            {['all', 'shortlisted', 'pending', 'rejected'].map(status => (
-              <button
-                key={status}
-                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all duration-300 ${filterStatus === status
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 scale-105'
-                  : 'text-slate-400 hover:text-slate-800 hover:bg-slate-50'
-                  }`}
-                onClick={() => setFilterStatus(status)}
-              >
-                {status}
-              </button>
-            ))}
+          <div className="flex bg-white rounded-xl shadow-xl shadow-slate-200/50 border border-slate-100 px-4 py-2">
+            <select
+              className="bg-transparent border-none text-[12px] font-black uppercase tracking-widest text-slate-600 focus:outline-none cursor-pointer placeholder-slate-400"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+            >
+              <option value="all">All Applicants</option>
+              <option value="shortlisted">Shortlisted</option>
+              <option value="pending">Pending</option>
+              <option value="rejected">Rejected</option>
+            </select>
           </div>
         </div>
 
-        <div className="premium-card p-0 overflow-hidden bg-white shadow-2xl shadow-slate-200/60 border-none">
+        {/* Action Bar */}
+        <div className="flex justify-between items-center mb-6 px-2">
+           <div className="flex items-center gap-4">
+             <span className="text-xs font-bold text-slate-500 bg-slate-200/50 px-3 py-1.5 rounded-lg">{selectedCandidates.length} Selected</span>
+             {selectedCandidates.length > 0 && (
+                <button className="text-[10px] font-black uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors">Bulk Action ⌄</button>
+             )}
+           </div>
+           <button 
+             onClick={exportToCSV}
+             className="btn bg-white border border-slate-200 shadow-sm text-slate-700 hover:bg-slate-50 hover:border-slate-300 text-[10px] font-black uppercase tracking-widest py-2.5 px-4 flex items-center gap-2"
+           >
+             <span>📥</span> Export CSV
+           </button>
+        </div>
+
+        <div className="premium-card p-0 overflow-hidden bg-white shadow-2xl shadow-slate-200/60 border-none mb-12">
           <div className="overflow-x-auto scrollbar-hide">
             <table className="w-full text-left min-w-[800px]">
               <thead className="bg-slate-50/50 border-b border-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-widest">
                 <tr>
+                  <th className="px-6 py-5 w-12 text-center">
+                    <input 
+                      type="checkbox" 
+                      className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                      checked={filteredApps.length > 0 && selectedCandidates.length === filteredApps.length}
+                      onChange={toggleAllSelections}
+                    />
+                  </th>
                   <th className="px-8 py-5">Candidate</th>
                   <th className="px-8 py-5">Position</th>
                   <th className="px-8 py-5 text-center">AI Match</th>
@@ -88,7 +147,15 @@ const RecruiterApplications = () => {
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {filteredApps.length > 0 ? filteredApps.map(app => (
-                  <tr key={app._id} className="hover:bg-slate-50/50 transition-all group">
+                  <tr key={app._id} className={`hover:bg-slate-50/50 transition-all group ${selectedCandidates.includes(app._id) ? 'bg-indigo-50/30' : ''}`}>
+                    <td className="px-6 py-6 text-center">
+                       <input 
+                         type="checkbox" 
+                         className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                         checked={selectedCandidates.includes(app._id)}
+                         onChange={() => toggleCandidateSelection(app._id)}
+                       />
+                    </td>
                     <td className="px-8 py-6">
                       <div className="font-black text-slate-900 tracking-tight text-base group-hover:text-blue-600 transition-colors">{app.applicant?.name || "Anonymous Candidate"}</div>
                       <div className="text-[10px] font-bold text-slate-400 mt-0.5 tracking-wider uppercase">{app.applicant?.email || "Email Hidden"}</div>

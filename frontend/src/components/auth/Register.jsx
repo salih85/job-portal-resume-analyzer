@@ -14,7 +14,7 @@ const Register = () => {
   });
 
 
-  
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -124,7 +124,7 @@ const Register = () => {
               <option value="">Select Role</option>
               <option value="jobseeker">Job Seeker</option>
               <option value="recruiter">Recruiter</option>
-              <option value="admin">Admin</option>
+              {/* <option value="admin">Admin</option> */}
             </select>
 
             <button
@@ -155,7 +155,7 @@ const Register = () => {
         </div>
       </div>
 
-      <Footer />
+
     </>
   );
 };

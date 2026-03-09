@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getJobs } from "../../api/jobApi";
+import { getJobs, deleteJob } from "../../api/jobApi";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/common/Navbar";
 import "../jobseeker/jobseeker.css";
@@ -23,13 +23,24 @@ const JobList = () => {
     fetchJobs();
   }, []);
 
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this job?")) {
+      try {
+        await deleteJob(id);
+        setJobs(jobs.filter(job => job._id !== id));
+      } catch (err) {
+        console.error("Failed to delete job", err);
+      }
+    }
+  };
+
   if (loading) return <p className="text-center mt-4">Loading jobs...</p>;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
-      <main className="container py-10 pb-32 px-4 xl:px-0 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+      <main className="container pt-32 pb-40 px-4 xl:px-0 max-w-7xl mx-auto flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
             <h2 className="text-3xl font-black text-slate-900 tracking-tight">My Posted Jobs</h2>
             <p className="text-slate-500 mt-2 font-medium flex items-center gap-2">
@@ -64,7 +75,7 @@ const JobList = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-6 w-full md:w-auto">
-                  <button onClick={() => alert('Editing active jobs will be supported in the next update!')} className="btn btn-secondary px-10 py-4 text-[10px] font-black uppercase tracking-widest flex-1 md:flex-none">Manage</button>
+                  <button onClick={() => handleDelete(job._id)} className="btn bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white px-10 py-4 text-[10px] font-black uppercase tracking-widest flex-1 md:flex-none">Delete</button>
                   <Link to="/recruiter/applicants" className="btn btn-primary px-10 py-4 text-[10px] font-black uppercase tracking-widest shadow-2xl shadow-blue-100 flex-1 md:flex-none text-center transform hover:-translate-y-1 transition-all">
                     Applicants 👥
                   </Link>

@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { postJob } from "../../api/jobApi";
 import Navbar from "../../components/common/Navbar";
 import "../jobseeker/jobseeker.css";
 
 const PostJob = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -13,14 +15,15 @@ const PostJob = () => {
   const submit = async (e) => {
     e.preventDefault();
     await postJob(form);
-    alert("Job posted");
+    alert("Job posted successfully!");
+    navigate("/recruiter/jobs");
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <Navbar />
-      <main className="container py-10 pb-32 px-4 xl:px-0 max-w-3xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+      <main className="container pt-16 pb-40 px-4 xl:px-0 max-w-3xl mx-auto flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
             <h2 className="text-3xl font-black text-slate-900 tracking-tight">Post a New Opportunity</h2>
             <p className="text-slate-500 mt-2 font-medium flex items-center gap-2">
@@ -47,7 +50,7 @@ const PostJob = () => {
                 <label className="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Company</label>
                 <input
                   className="input font-medium"
-                  placeholder="e.g. Antigravity AI"
+                  placeholder="e.g. Acme Corp"
                   onChange={e => setForm({ ...form, company: e.target.value })}
                   required
                 />
@@ -80,7 +83,7 @@ const PostJob = () => {
                 <label className="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Salary Estimate</label>
                 <input
                   className="input font-medium"
-                  placeholder="e.g. $120k - $160k"
+                  placeholder="e.g. ₹12,00,000 - ₹18,00,000"
                   onChange={e => setForm({ ...form, salary: e.target.value })}
                 />
               </div>

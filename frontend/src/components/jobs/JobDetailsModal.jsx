@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const JobDetailsModal = ({ isOpen, onClose, job, onApply, userProfile, isApplied: initialIsApplied }) => {
     const [applied, setApplied] = useState(false);
+    const [saved, setSaved] = useState(false);
 
     if (!isOpen || !job) return null;
 
@@ -23,23 +24,23 @@ const JobDetailsModal = ({ isOpen, onClose, job, onApply, userProfile, isApplied
     return (
         <div className="mini-modal-backdrop" onClick={onClose}>
             <div className="mini-modal max-w-3xl bg-white p-0 overflow-hidden" onClick={(e) => e.stopPropagation()}>
-                <div className="bg-slate-900 px-8 py-10 text-white relative overflow-hidden">
+                <div className="bg-slate-50 border-b border-slate-100 px-4 md:px-8 py-6 md:py-10 text-slate-900 relative overflow-hidden">
                     <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-2">
-                            <h2 className="text-3xl font-black tracking-tight uppercase leading-none">{job.title}</h2>
+                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-2">
+                            <h2 className="text-2xl md:text-3xl font-black tracking-tight uppercase leading-none">{job.title}</h2>
                             {isActuallyApplied && (
                                 <span className="status-applied text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-widest border border-blue-500/30 bg-blue-500/10 shadow-sm">Applied</span>
                             )}
                         </div>
-                        <p className="text-blue-400 font-black text-xs tracking-widest uppercase flex items-center gap-2">
+                        <p className="text-blue-600 font-black text-xs tracking-widest uppercase flex items-center gap-2">
                             <span className="opacity-50 text-base">🏢</span> {job.company || "Hiring Partner"}
                         </p>
                     </div>
-                    <button className="absolute top-8 right-8 text-slate-400 hover:text-white transition-colors font-black text-xl z-20" onClick={onClose}>✕</button>
-                    <div className="absolute -right-6 -bottom-10 text-[160px] opacity-10 select-none pointer-events-none">💼</div>
+                    <button className="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors font-black text-xl z-20" onClick={onClose}>✕</button>
+                    <div className="absolute -right-6 -bottom-10 text-[100px] md:text-[160px] opacity-10 select-none pointer-events-none text-slate-200">💼</div>
                 </div>
 
-                <div className="p-8 max-h-[70vh] overflow-y-auto scrollbar-hide">
+                <div className="p-4 md:p-8 max-h-[70vh] overflow-y-auto scrollbar-hide">
                     {!isProfileComplete && !isActuallyApplied && (
                         <div className="bg-amber-50 border-l-4 border-l-amber-400 p-6 rounded-r-2xl mb-8 flex gap-4 items-start shadow-sm">
                             <span className="text-2xl">⚠️</span>
@@ -53,7 +54,7 @@ const JobDetailsModal = ({ isOpen, onClose, job, onApply, userProfile, isApplied
                     {applied ? (
                         <div className="text-center py-20 fade-in-up">
                             <div className="text-7xl mb-6">🎯</div>
-                            <h3 className="text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight">Application Transmitted</h3>
+                            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 uppercase tracking-tight">Application Transmitted</h3>
                             <p className="text-slate-400 font-medium max-w-sm mx-auto">Your credentials have been queued for AI screening. You will be notified of matches within 24 hours.</p>
                         </div>
                     ) : (
@@ -113,9 +114,12 @@ const JobDetailsModal = ({ isOpen, onClose, job, onApply, userProfile, isApplied
                 </div>
 
                 {!applied && (
-                    <div className="p-8 border-t border-slate-50 flex gap-4">
-                        <button className="btn btn-secondary flex-1 py-4 text-[10px] font-black uppercase tracking-widest" onClick={onClose}>
-                            {isActuallyApplied ? "Exit Detail" : "Archive"}
+                    <div className="p-4 md:p-8 border-t border-slate-50 flex flex-col sm:flex-row gap-4">
+                        <button 
+                            className={`btn flex-1 py-4 text-[10px] font-black uppercase tracking-widest transition-all ${saved ? 'bg-amber-100 text-amber-800 border border-amber-200 hover:bg-amber-200' : 'btn-secondary'}`} 
+                            onClick={() => setSaved(!saved)}
+                        >
+                            {saved ? "★ Saved Job" : "☆ Save for later"}
                         </button>
                         {!isActuallyApplied && (
                             <button

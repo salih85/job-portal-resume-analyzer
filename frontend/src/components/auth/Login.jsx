@@ -13,48 +13,48 @@ const Login = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  
-const handleGoogleSuccess = async (credentialResponse) => {
-  try {
-    const res = await API.post('/auth/google-login', {
-      token: credentialResponse.credential
-    });
-    login(res.data);
-    redirectByRole(res.data.user);
-  } catch {
-    alert('Google login failed');
-  }
-};
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await API.post('/auth/login', form);
-    login(response.data);
-    redirectByRole(response.data.user);
-  } catch (error) {
-    alert(error.response?.data?.message || 'Login failed');
-  }
-};
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const res = await API.post('/auth/google-login', {
+        token: credentialResponse.credential
+      });
+      login(res.data);
+      redirectByRole(res.data.user);
+    } catch {
+      alert('Google login failed');
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await API.post('/auth/login', form);
+      login(response.data);
+      redirectByRole(response.data.user);
+    } catch (error) {
+      alert(error.response?.data?.message || 'Login failed');
+    }
+  };
 
 
-const redirectByRole = (user) => {
-  if (user.role === "jobseeker") {
-    navigate("/dashboard");
-  } else if (user.role === "recruiter") {
-    navigate("/recruiter/dashboard");
-  } else if (user.role === "admin") {
-    navigate("/admin/dashboard");
-  } else {
-    navigate("/");
-  }
-};
+  const redirectByRole = (user) => {
+    if (user.role === "jobseeker") {
+      navigate("/dashboard");
+    } else if (user.role === "recruiter") {
+      navigate("/recruiter/dashboard");
+    } else if (user.role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <>
       <Navbar />
 
-      <main className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+      <main className="d-flex align-items-center justify-content-center min-vh-100 bg-light py-5">
         <div className="card shadow-sm p-4" style={{ maxWidth: '400px', width: '100%' }}>
           <h2 className="text-center mb-4" style={{ color: '#1e3a8a' }}>
             Login
@@ -85,7 +85,7 @@ const redirectByRole = (user) => {
             </div>
 
             <div className="d-flex justify-content-end mb-3">
-              <Link to="/forgot-password" className="small text-decoration-none">
+              <Link to="/forgot-password" style={{ color: '#2563eb', textDecoration: 'none' }}>
                 Forgot password?
               </Link>
             </div>
@@ -97,23 +97,24 @@ const redirectByRole = (user) => {
 
           <div className="text-center my-3">OR</div>
 
-          <div className="d-flex justify-content-center mb-3">
+          <div className="w-100 google-login-container [&>div]:!w-full">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={() => alert('Google Login Failed')}
+              width="100%"
             />
           </div>
 
           <p className="text-center small">
             Don’t have an account?{' '}
-            <Link to="/register" className="text-decoration-none">
+            <Link to="/register" style={{ color: '#2563eb', textDecoration: 'none' }}>
               Register
             </Link>
           </p>
         </div>
       </main>
 
-      <Footer />
+
     </>
   );
 };
