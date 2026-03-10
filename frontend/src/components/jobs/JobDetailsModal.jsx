@@ -36,7 +36,7 @@ const JobDetailsModal = ({ isOpen, onClose, job, onApply, userProfile, isApplied
                             <span className="opacity-50 text-base">🏢</span> {job.company || "Hiring Partner"}
                         </p>
                     </div>
-                    <button className="absolute top-8 right-8 text-slate-400 hover:text-slate-900 transition-colors font-black text-xl z-20" onClick={onClose}>✕</button>
+                    <button className="absolute top-4 right-4 md:top-8 md:right-8 text-slate-400 hover:text-slate-900 transition-colors font-black text-xl z-30 bg-white/50 rounded-full w-8 h-8 flex items-center justify-center backdrop-blur-sm" onClick={onClose}>✕</button>
                     <div className="absolute -right-6 -bottom-10 text-[100px] md:text-[160px] opacity-10 select-none pointer-events-none text-slate-200">💼</div>
                 </div>
 
