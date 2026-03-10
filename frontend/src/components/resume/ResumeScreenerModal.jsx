@@ -38,7 +38,7 @@ const ResumeScreenerModal = ({ isOpen, onClose, application }) => {
         <div className="resume-modal-backdrop" onClick={handleBackdropClick}>
             <div className="resume-modal-container max-w-4xl bg-slate-50 p-0 overflow-hidden shadow-2xl shadow-indigo-500/10">
                 {/* Premium Dark Header */}
-                <div className="bg-slate-900 px-4 md:px-8 py-6 md:py-10 relative overflow-hidden">
+                <div className="bg-slate-900 p-4 pt-12 md:p-8 md:pt-10 relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
 
@@ -53,7 +53,7 @@ const ResumeScreenerModal = ({ isOpen, onClose, application }) => {
                             </p>
                         </div>
                         <button
-                            className="text-slate-400 hover:text-white hover:bg-white/10 w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white/5 backdrop-blur-md border border-white/10 group flex-shrink-0"
+                            className="absolute top-4 right-4 md:relative md:top-auto md:right-auto text-slate-400 hover:text-white hover:bg-white/10 w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white/10 backdrop-blur-md border border-white/20 group flex-shrink-0 z-20"
                             onClick={onClose}
                         >
                             <span className="group-hover:scale-110 transition-transform font-bold">✕</span>
