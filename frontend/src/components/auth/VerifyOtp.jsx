@@ -122,7 +122,7 @@ const VerifyOtp = () => {
           </p>
         </div>
       </div>
-      <Footer />
+   
     </>
   );
 };
