@@ -97,13 +97,13 @@ const Login = () => {
 
           <div className="text-center my-3">OR</div>
 
-          <div className="w-100 google-login-container [&>div]:!w-full">
+          <div className="d-flex justify-content-center w-100 my-4">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={() => alert('Google Login Failed')}
               theme="outline"
               size="large"
-              width="360"
+              
             />
           </div>
 
